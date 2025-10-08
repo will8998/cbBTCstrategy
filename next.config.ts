@@ -1,8 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  distDir: "build-dist",
-  cleanDistDir: true,
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;
