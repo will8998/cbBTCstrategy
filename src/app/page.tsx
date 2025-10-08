@@ -25,7 +25,7 @@ export default function Home() {
               </div>
               <div className="rounded-xl border border-white/20 bg-white/10 p-4">
                 <div className="text-xs text-white/70 mb-2">3rd</div>
-                <p className="text-white/95 text-sm">The position is listed for 1.2× entry (target +20%) using on-chain liquidity.</p>
+                <p className="text-white/95 text-sm">The position is listed for 1.1× entry (target +10%) using on-chain liquidity.</p>
               </div>
               <div className="rounded-xl border border-white/20 bg-white/10 p-4">
                 <div className="text-xs text-white/70 mb-2">4th</div>
