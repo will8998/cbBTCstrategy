@@ -8,13 +8,13 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 h-12 flex items-center justify-between text-xs text-white/60">
         <span>© {new Date().getFullYear()} cbBTC Strategy</span>
         <a
-          href="https://x.com/cbbtcstrategy"
+          href="https://x.com/coinbasebtcstr"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 hover:text-white"
         >
           <Twitter size={14} />
-          <span className="hidden sm:inline">@cbbtcstrategy</span>
+          <span className="hidden sm:inline">@coinbasebtcstr</span>
         </a>
       </div>
     </footer>

@@ -5,11 +5,11 @@ export const NETWORK = {
 };
 
 export const ADDRESSES = {
-  contract: "0xC53341BDe576085aE2E59B4dF53CEEaA9d993cC0", // Strategy contract (Base)
-  toshi: "0xAC1Bd2486aAf3B5C0fc3Fd868558b082a531B2B4",
-  tostr: "0x0000000000000000000000000000000000000000", // TODO: set TOSTR token address when available
+  contract: "0x6264cF27De811326977f30a2f0B0a12B90914576", // Strategy contract (Base)
+  toshi: "0x6264cF27De811326977f30a2f0B0a12B90914576",
+  tostr: "0x6264cF27De811326977f30a2f0B0a12B90914576", // placeholder for unified CA per request
   dead: "0x000000000000000000000000000000000000dEaD",
-  pool: "0x4b0Aaf3EBb163dd45F663b38b6d93f6093EBC2d3",
+  pool: "0x6264cF27De811326977f30a2f0B0a12B90914576",
 };
 
 export const TOSHI_ABI: Abi = [
