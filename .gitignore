@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+next-dist/
+.turbo/
+.vercel/
+out/
+dist/
+
+# Logs & caches
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+.cache/
+
+# OS & editors
+.DS_Store
+.vscode/
+
+# Tests/coverage
+coverage/
+
+# Env
+.env*
+
+

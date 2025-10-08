@@ -1,0 +1,404 @@
+@import "tailwindcss";
+
+:root {
+  --background: #06121f;
+  --foreground: #e6f0ff;
+  --card: #0b1f36;
+  --muted: #0a1a2b;
+  --accent: #0025ff; /* brand blue per request */
+  --accent-600: #001fcc;
+  --accent-700: #00199e;
+  --ring: #60a5fa;
+  --lightsaber: #22e7e0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-brand, var(--font-geist-sans));
+  --font-mono: var(--font-geist-mono);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+}
+
+/* Force dark blue theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #06121f;
+    --foreground: #e6f0ff;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Orange page background for new homepage sections */
+.orange-page {
+  background: #ff6a00;
+}
+
+html { scroll-behavior: smooth; }
+
+.app-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Section backgrounds using image-set to allow unknown extensions */
+.bg-hero {
+  background-image:
+    url('/images/hero.webp'),
+    url('/images/hero.jpg'),
+    url('/images/hero.png'),
+    url('/hero.webp'),
+    url('/hero.jpg'),
+    url('/hero.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-vision {
+  background-image:
+    url('/images/thevision.webp'),
+    url('/images/thevision.jpg'),
+    url('/images/thevision.png'),
+    url('/thevision.webp'),
+    url('/thevision.jpg'),
+    url('/thevision.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-footer {
+  background-image: url('/images/footer.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-data-blurb {
+  background-image: url('/images/data.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-strategy-blurb {
+  background-image: url('/images/diamondhand.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Dark overlay helper */
+.with-overlay {
+  position: relative;
+}
+.with-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2,6,23,0.2), rgba(2,6,23,0.2));
+  z-index: 1;
+}
+
+/* Stronger overlay variant for readability on busy images */
+.overlay-strong::before {
+  background: linear-gradient(180deg, rgba(2,6,23,0.55), rgba(2,6,23,0.55));
+}
+.with-overlay > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Ensure any absolute child (like hero content) stays over the video/overlay */
+.with-overlay > .absolute {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* Ensure hero background video sits under overlay/content */
+.with-overlay > .hero-video {
+  z-index: 0;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.35);
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--accent), var(--accent-600));
+  color: white;
+  border-radius: 12px;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(180deg, var(--accent-600), var(--accent-700));
+}
+
+/* Turquoise lightsaber glow text */
+.lightsaber-text {
+  color: var(--lightsaber);
+  text-shadow:
+    0 0 6px rgba(34, 231, 224, 0.8),
+    0 0 14px rgba(34, 231, 224, 0.6),
+    0 0 28px rgba(34, 231, 224, 0.4),
+    0 0 48px rgba(34, 231, 224, 0.25);
+  filter: saturate(120%);
+  animation: saber-pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes saber-pulse {
+  0%, 100% { text-shadow: 0 0 6px rgba(34,231,224,0.7), 0 0 14px rgba(34,231,224,0.5), 0 0 28px rgba(34,231,224,0.35), 0 0 48px rgba(34,231,224,0.2); }
+  50% { text-shadow: 0 0 10px rgba(34,231,224,0.95), 0 0 22px rgba(34,231,224,0.8), 0 0 44px rgba(34,231,224,0.55), 0 0 72px rgba(34,231,224,0.35); }
+}
+
+/* Parallax helpers */
+.parallax-hero {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+/* Ensure hero section acts like a full-height container for background video */
+.parallax-hero {
+  display: grid;
+}
+
+/* Hero bubbles overlay */
+.hero-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-bubble {
+  position: absolute;
+  border-radius: 9999px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  filter: saturate(0.9) brightness(0.95);
+  opacity: 0.75;
+  transition: transform 0.08s linear;
+}
+
+/* Rising arrows background */
+.arrows-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5; /* above page content, below navbar (z-40) */
+}
+
+.arrows-canvas svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes rise {
+  0% { transform: translateY(10%); opacity: 0; }
+  10% { opacity: .8; }
+  100% { transform: translateY(-110%); opacity: 0; }
+}
+
+.arrow {
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: .35;
+  animation: rise linear infinite;
+}
+
+/* ===== Zk console section ===== */
+.zk-section {
+  background: radial-gradient(1200px 400px at 50% 0%, rgba(255,255,255,0.06), transparent 60%);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+}
+
+.zk-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  padding: 16px;
+}
+
+@media (min-width: 1024px) {
+  .zk-grid { gap: 16px; padding: 18px; }
+}
+
+.zk-panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.zk-panel-header {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 8px;
+}
+
+.zk-grid .col-span-2 { grid-column: span 2 / span 2; }
+.zk-grid .col-span-4 { grid-column: 1 / -1; }
+
+.zk-matrix {
+  height: 120px;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(148, 163, 184, 0.18) 0 1px,
+    transparent 1px 12px
+  ),
+  repeating-linear-gradient(
+    to bottom,
+    rgba(148, 163, 184, 0.12) 0 1px,
+    transparent 1px 8px
+  );
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.zk-matrix::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.2) 60%, transparent);
+  animation: scan-vert 4s linear infinite;
+}
+
+.zk-card {
+  background: rgba(2,6,23,0.6);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.zk-card--console .zk-rows {
+  height: 26px;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(255,255,255,0.7) 0 18px,
+    rgba(255,255,255,0.1) 18px 20px
+  );
+  border-radius: 6px;
+  opacity: 0.7;
+}
+
+.zk-card--console .zk-rows + .zk-rows { margin-top: 8px; }
+
+.zk-scan {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(96,165,250,0.08), transparent);
+  animation: scan-vert 5s linear infinite;
+}
+
+.zk-grid-mini {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.zk-chip {
+  height: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06));
+  border: 1px solid rgba(148,163,184,0.25);
+  border-radius: 6px;
+}
+
+.zk-noise {
+  height: 80px;
+  border-radius: 8px;
+  background: radial-gradient(circle at 30% 60%, rgba(255,255,255,0.15), transparent 40%),
+              radial-gradient(circle at 70% 40%, rgba(255,255,255,0.15), transparent 40%),
+              rgba(2,6,23,0.7);
+  filter: contrast(110%);
+  animation: noise 2.5s steps(10) infinite;
+}
+
+.zk-queue {
+  height: 140px;
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(to bottom, rgba(148,163,184,0.18) 0 10px, transparent 10px 22px),
+    repeating-linear-gradient(to right, rgba(148,163,184,0.18) 0 20px, transparent 20px 24px);
+  position: relative;
+}
+
+.zk-card--bars .zk-bars {
+  height: 120px;
+  border-radius: 8px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.1) 0 8%,
+    rgba(255,255,255,0.35) 8% 10%,
+    rgba(255,255,255,0.1) 10% 20%
+  );
+  background-size: 180px 100%;
+  animation: move-bars 2.4s linear infinite;
+}
+
+.zk-eth {
+  height: 260px;
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(to bottom, rgba(255,255,255,0.08) 0 2px, transparent 2px 6px),
+    radial-gradient(ellipse at center, rgba(255,255,255,0.12), transparent 60%);
+  mask-image: radial-gradient(circle at 50% 40%, black 40%, transparent 41%);
+}
+
+.zk-ticker {
+  margin-top: 8px;
+  border-top: 1px solid rgba(96, 165, 250, 0.25);
+  background: rgba(2,6,23,0.6);
+  overflow: hidden;
+}
+
+.zk-ticker-track {
+  white-space: nowrap;
+  display: inline-block;
+  padding: 8px 0;
+  color: rgba(255,255,255,0.6);
+  animation: ticker 22s linear infinite;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes move-bars {
+  from { background-position: 0 0; }
+  to { background-position: 180px 0; }
+}
+
+@keyframes scan-vert {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes noise {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  25% { background-position: 10px -8px, -6px 12px, 0 0; }
+  50% { background-position: -12px 4px, 8px -10px, 0 0; }
+  75% { background-position: 6px 6px, -10px -6px, 0 0; }
+  100% { background-position: 0 0, 0 0, 0 0; }
+}
