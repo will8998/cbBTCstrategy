@@ -1,25 +1,23 @@
 import { Dashboard } from "@/components/Dashboard";
 
-export default function DashboardPage() {
+export default function Page() {
   return (
-    <>
+    <div>
+      <section className="app-container pt-6">
+        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <p className="mt-3 text-white/80">We&rsquo;re putting the finishing touches on cbBTC Strategy. Join our Telegram to get updates and early access.</p>
+        <a
+          href="https://t.me/cbbtcstrategy"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block mt-3 px-4 py-2 rounded-md bg-white/10 border border-white/10 hover:bg-white/20 text-sm"
+        >
+          Join Telegram
+        </a>
+      </section>
+
       <Dashboard />
-      {/* Coming Soon overlay bounded to dashboard route */}
-      <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40 backdrop-blur-md">
-        <div className="mx-4 max-w-xl w-full rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-semibold">Coming soon</h2>
-          <p className="mt-3 text-white/80">We&rsquo;re putting the finishing touches on VirtualStrategy. Join our Telegram to get updates and early access.</p>
-          <a
-            href="https://t.me/virstrstrategy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary mt-6 inline-flex px-6 py-3"
-          >
-            Join Telegram
-          </a>
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
 

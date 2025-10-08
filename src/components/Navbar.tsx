@@ -25,7 +25,7 @@ export function Navbar() {
             Dexscreener
           </a>
           <a
-            href="https://t.me/virstrstrategy"
+            href="https://t.me/cbbtcstrategy"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white"

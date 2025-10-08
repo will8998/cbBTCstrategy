@@ -9,16 +9,21 @@ type AnalyticsData = {
   updatedAt: number;
 };
 
+type DexToken = { symbol?: string };
+type DexVolume = { h24?: number | string };
+type DexPair = { priceUsd?: string; baseToken?: DexToken; quoteToken?: DexToken; volume?: DexVolume };
+type DexSearchResponse = { pairs?: DexPair[] };
+
 async function fetchAnalytics(): Promise<AnalyticsData> {
   // Public endpoints with generous rate limits
   // - BTC USD via CoinGecko Simple Price
   // - cbBTC price via Dexscreener token pair search on Base
   // - Base ETH 24h volume via Dexscreener chain summary
   const [btc, cbbtc, baseSummary] = await Promise.allSettled([
-    fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd").then(r => r.json()),
+    fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd").then((r) => r.json() as Promise<Record<string, { usd: number }>>),
     // Dexscreener cbBTC on Base (address may vary by deployment; using symbol search fallback)
-    fetch("https://api.dexscreener.com/latest/dex/search?q=cbbtc%20base").then(r => r.json()),
-    fetch("https://api.dexscreener.com/latest/dex/chains/base").then(r => r.json()),
+    fetch("https://api.dexscreener.com/latest/dex/search?q=cbbtc%20base").then((r) => r.json() as Promise<DexSearchResponse>),
+    fetch("https://api.dexscreener.com/latest/dex/chains/base").then((r) => r.json() as Promise<DexSearchResponse>),
   ]);
 
   const res: AnalyticsData = { updatedAt: Date.now() };
@@ -27,17 +32,19 @@ async function fetchAnalytics(): Promise<AnalyticsData> {
     res.btcUsd = Number(btc.value.bitcoin.usd);
   }
 
-  if (cbbtc.status === "fulfilled" && Array.isArray(cbbtc.value?.pairs)) {
+  if (cbbtc.status === "fulfilled" && Array.isArray((cbbtc.value as DexSearchResponse)?.pairs)) {
     // Pick the first pair with a valid priceUsd
-    const pair = cbbtc.value.pairs.find((p: any) => p?.priceUsd && /cbbtc/i.test(p?.baseToken?.symbol || ""));
+    const list = (cbbtc.value as DexSearchResponse).pairs as DexPair[];
+    const pair = list.find((p) => (p?.priceUsd ?? null) && /cbbtc/i.test(p?.baseToken?.symbol || ""));
     if (pair?.priceUsd) res.cbbtcUsd = Number(pair.priceUsd);
   }
 
-  if (baseSummary.status === "fulfilled" && baseSummary.value?.pairs) {
+  if (baseSummary.status === "fulfilled" && (baseSummary.value as DexSearchResponse)?.pairs) {
     // Sum 24h volume USD for ETH quote pairs as a proxy for Base ETH volume
-    const vol = baseSummary.value.pairs
-      .filter((p: any) => /eth/i.test(p?.quoteToken?.symbol || ""))
-      .reduce((acc: number, p: any) => acc + (Number(p?.volume?.h24) || 0), 0);
+    const pairs = ((baseSummary.value as DexSearchResponse).pairs || []) as DexPair[];
+    const vol = pairs
+      .filter((p) => /eth/i.test(p?.quoteToken?.symbol || ""))
+      .reduce((acc: number, p: DexPair) => acc + (Number(p?.volume?.h24) || 0), 0);
     if (Number.isFinite(vol)) res.baseEthVol24hUsd = vol;
   }
 
